@@ -1,10 +1,11 @@
 package database
 
 import (
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"jwt-golang/models"
 	"log"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 // Instance we are defining an instance of the database. This variable will be used across the entire application to communicate with the database.
