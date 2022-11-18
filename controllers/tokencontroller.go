@@ -9,11 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// TokenRequest -- we define a simple struct that will essentially be what the endpoint would expect as the request body.
+// This would contain the user’s email id and password.
 type TokenRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
+// GenerateToken -- We Bind the incoming request to the TokenRequest struct. We communicate with the database via GORM
+// to check if the email id passed by the request actually exists in the database. If so, it will fetch the first record
+// that matches. Else, an appropriate error message will be thrown out by the code. Next, we check if the entered password
+// matches the one in the database. For this, we will be using the CheckPassword() method that we created in the jwt.go file
 func GenerateToken(context *gin.Context) {
 	var request TokenRequest
 	var user models.User
@@ -39,6 +45,8 @@ func GenerateToken(context *gin.Context) {
 		return
 	}
 
+	// This would return a signed token string with an expiry of 1 hour, which in turn will be sent back to the client
+	// as a response with a 200 Status Code.
 	tokenString, err := auth.GenerateJWT(user.Email, user.Username)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
