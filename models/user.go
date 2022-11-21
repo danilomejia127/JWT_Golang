@@ -10,7 +10,7 @@ type User struct {
 	Name     string `json:"name"`
 	Username string `json:"username" gorm:"unique"`
 	Email    string `json:"email" gorm:"unique"`
-	Password string `json:"name"`
+	Password string `json:"password"`
 }
 
 func (user *User) HashPassword(password string) error {
@@ -22,8 +22,8 @@ func (user *User) HashPassword(password string) error {
 	return nil
 }
 
-func (user *User) CheckPassword(providePassword string) error {
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(providePassword))
+func (user *User) CheckPassword(providedPassword string) error {
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(providedPassword))
 	if err != nil {
 		return err
 	}

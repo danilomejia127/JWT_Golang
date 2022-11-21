@@ -53,6 +53,5 @@ func GenerateToken(context *gin.Context) {
 		context.Abort()
 		return
 	}
-
 	context.JSON(http.StatusOK, gin.H{"token": tokenString})
 }
